@@ -1,0 +1,26 @@
+1.1-1
+Give a real-world example that requires sorting or a real-world example that requires computing a convex hull.
+
+Object recognition and image processing both involve problems related to finding a convex hull.  If you treat pixels as individual points of an image, then edge-detection is synonymous with computing the convex hull.  Also, convex-hull can be used in physics to find a good bounding box for a numerical simulation involving collisions.
+
+1.1-2
+Other than speed, what other measures of efficiency might one use in a real-world setting?
+
+Some other measures of efficiency are e.g. run-time memory usage, code size, readability / simplicity, and compatability (such as with other programs).
+
+1.1-3
+Select a data structure that you have seen previously, and discuss its strengths and limitations.
+
+The list structure (specifically, linked list) is good when you need to allocate more space without reorganizing an entire set of data, because data does not need to be in contiguous memory.  It's simplicity is also a boon.  Unfortunately, memory is wasted due to each node requiring at least one pointer.  Slow access times, too.
+
+1.1-4
+How are the shortest-path and traveling-salesman problems given above similar?  How are they different?
+
+They are similar in that they both concern themselves with minimizing a distance metric.  However, the problems are very different; the first in minimizing the distance of a path between two known nodes, while the second has its goal in minimizing the distance of a path between all nodes.
+
+(As an aside, are they in fact two versions of the same problem?  i.e. finding the shortest path between a subset N nodes)
+
+1.1-5
+Mathematical research is known for its extreme rigour - nobody would accept an automatic theorem prover that only said a proof is 'probably' correct.  Also, critical systems (should) require absolute optimality, such as an algorithm to find the most optimal fuel rod design to hold radioactive materials in nuclear plants.
+
+Most all problems fall into the second category - where global optimality is not needed.  A dragmentation program running on a computer is a nice example - completely optimizing the allocation of memory on a hard disk would take prohibitively long, for negligible results. (because it would spend so much time moving small files around).
