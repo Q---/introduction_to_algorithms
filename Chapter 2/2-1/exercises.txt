@@ -1,0 +1,69 @@
+2.1-1
+Using Figure 2.2 as a model, illustrate the operation of Insertion-Sort on the array A = {31, 41, 59, 26, 41, 58}
+
+At the beginning of each iteration:
+
+a:    31 [41] 59 26 41 58
+                         
+
+b:    31 41 [59] 26 41 58
+                         
+
+c:    31 41 59 [26] 41 58
+      ^^`->`->           
+
+d:    26 31 41 59 [41] 58
+               ^^`       
+
+e:    26 31 41 41 59 [58]
+                  ^^`    
+
+f:    [26 31 41 41 58 59]
+
+
+2.2-2
+Rewrite the Insertion-Sort procedure to sort into nonincreasing instead of non-decreasing order.
+
+Insertion-Sort-Decreasing(A)
+1    for j = 2 to A.length
+2        key = A[j]
+3        // Insert A[j] into the sorted sequence A[1 .. j-1].
+4        i = j - 1
+5        while i > 0 and A[i] < key
+6            A[i + 1] = A[i]
+7            i = i - 1
+8        A[i + 1] = key
+
+2.2-3
+Write pseudocode for linear search, which scans through the sequence, looking for v.  Using a loop invariant, prove that your algorithm is correct.  Make sure that your loop invariant fulfills the three necessary properties.
+
+Linear-Search(A, v)
+1    for i = 1 to A.length
+2        if A[i] = v
+3            return i
+4    return NIL
+
+Loop invariant:  A[j] != v for all j such that j < i
+
+Initialization:  Since i is initialized at one, the invariant is true before the first iteration, since no valid index is below 1.
+
+Maintenance:  The invariant is true before and after every iteration.  Otherwise, at the i-th iteration there is some j < i such that A[j] = v.  In that case for the j-th iteration of the loop the value j is returned, and there is no i-th iteration of the loop, a contradiction.
+
+(Proof by contradiction!)
+
+Termination:  When the loop terminates, there may be two cases: one is that it terminates after i <= A.length, and returns i; in which case the if conditional ensures that A[i] = v.  The other case is that i exceeds A.length; in this case by the loop invariant we have A[j] != v for all j such that j < (A.length + 1), so returning NIL is correct.
+
+(For the termination clause, replace 'i' by its current value in the loop invariant, after the loop is over)
+
+(This was so mind-boggling, I had to look up the canonical answer)
+
+2.2-4
+Consider the problem of adding two n-bit binary integers, stored in two n-element arrays A and B.  The sum of the two integers should be stored in binary form in an (n + 1)-element array C.  State the problem formally and write pseudocode for adding the two integers.
+
+Problem-Statement:
+Given the attribute .binary of an array with elements of zero or one, such that the attribute returns Array[1]*2^1 + Array[2]*2 + ... Array[i]*2^i, write a function which returns C such that C.binary = A.binary + B.binary
+
+Binary-Addition(A, B)
+    for i = A.length downto 1
+        C[i+1] = A[i] ^ B[i] && ~(A[i] && B[i])
+    C[1] = A[1] ^ B[1] && ~(A[1] && B[1])
