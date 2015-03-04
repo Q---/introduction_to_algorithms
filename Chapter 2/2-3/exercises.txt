@@ -112,16 +112,52 @@ Which is equivalent to ln n
 For the proof, see the corresponding image file.
 
 2.3-6
+Observe that the while loop of lines 5-7 of the insertion-sort procedure in Section 2.1 uses a linear search to scan (backward) through the sorted subarray A[1..j-1].  Can we use a binary search (see Exercise 2.3-5) instead to improve the overall worst-case running time of insertion sort to O(n lg n)?
 
+On an array, insertion of an element usually takes O(n) time, because it has to move all of the higher elements to make space for the new one.  If we are primarily concerned with the array data type, then no.
 
+However, I'm not fully satisfied with that answer.  With linked lists, insertion is possible in O(1) time.  However, then the problem becomes that of efficient traversal of linked lists; unlike arrays, accessing the nth element of a linked list is O(n).  The vanilla interpretation of linked lists is out.
 
+What if we had an as-yet-unknown data type that had O(1) element insertion, and O(1) access time?  In that case, the time-analysis is as follows:
 
+Divide: Simplifying into sorting A[1..j-1] takes O(1)
+Conquer: In a recursive case (which is simpler to analyze here), the conquer-step will contribute T(n-1) complexity.
+Combine: Each binary search of where to insert the current element contributes lg n to the time complexity
 
+Thus, the recurrence relation is as follows:
 
+Binary insertion sort:
+       { C_1                  if n = 1
+T(n) = {
+       { T(n-1) + lg n + C_2  if n > 1
 
+It is easy to see that this will equal something like lg(n)+lg(n-1)+lg(n-2)+lg(n-3)...  By the property of logarthims, this is around lg(n!)+1
 
+(for the better proof, and more analysis, see the image file)
 
+Despite the scary-looking factorial, lg(n!) is actually a lower order of growth than both n^2 and n lg n.  See the second image file for a graphical plot of the time complexities.
 
+Since the lower bound on comparison-based sorts in n lg n, I consider this a proof that there are no data structures that have O(1) insertion and indexing. (Except for prohibitively space-expensive ones)
 
+2.3-7
+Describe a O(n lg n)-time algorithm that, given a set S of n integers and another integer x, determines whether or not there exist two elements in S whose sum is exactly x.
 
+Vaguely,
+1. Use merge sort on A... O(n lg n)
+2. For each n, use binary search to find {m | n+m = x}... O(n lg n)
 
+Given previous definitions of merge sort and binary search:
+
+Set-Sum-Finder(S, x)
+1    mergeSort(S)
+2    for n = 1 to S.length
+3        i = binarySearch(S, x-n, 0, length)
+4        if i != NIL and i != n
+5            return true
+6    return false
+
+Note: The accuracy of this definition depends upon the property of the set data type of no repeated elements.  A version for an array would require minor modification of the binary search algorithm.
+
+The "i != n" condition disallows the algorithm to use the same element twice, but binary search will only return the first found index.  Thus, if there are elements of the same value, a particularly unlucky execution might miss pairs.
+
+I expect this is why the question specified 'set', instead of 'array'.  If an array was required, and you wanted to use unmodified binary search, you could convert an ordered array to a set in O(n) time.
